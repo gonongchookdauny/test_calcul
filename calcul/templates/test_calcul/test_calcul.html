@@ -30,7 +30,7 @@
 <button type="button" value="." id="dot">.</button>
 <button type="button" value="result" id="result" class="calcul_2">=</button>
 <script>
-  var original_number = ''
+  var original_number = '0'
   var temp_number = ''
   var calcul_method = ''
 
@@ -59,7 +59,7 @@
                   temp_number = t_number
               },
               error: function(result) {
-                  $('#number').text('error!')
+                  $('#number').text(String(result.responseText))
                   calcul_method = ''
                   temp_number = ''
               }

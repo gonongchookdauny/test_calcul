@@ -30,8 +30,8 @@ class TestCalcul(View):
         calcul_method = calcul_method_list[method]
         try:
             result_val = round(calcul_method(num1, num2) , 14)
-        except ZeroDivisionError as Error:
-            return HttpResponse(Error, status=500)
+        except ZeroDivisionError:
+            return HttpResponse('ZeroDivisionError', status=500)
 
         try:
             if result_val % 1 == 0:
