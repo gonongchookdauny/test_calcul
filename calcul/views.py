@@ -16,8 +16,6 @@ class TestCalcul(View):
             method = data['method']
             num1 = float(data['number1'])
             num2 = float(data['number2'])
-        except KeyError:
-            pass
         except ValueError:
             pass
 

@@ -19,7 +19,7 @@ from calcul import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('calcul/', views.calcul, name='calcul'),
+     # path('calcul/', views.calcul, name='calcul'),
     path('test_calcul/', views.TestCalcul.as_view(), name='test_calcul'),
 ]
 
