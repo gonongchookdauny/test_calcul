@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<div id="number">0</div>
+<button type="button" value="clear" id="clear">C</button>
+<button type="button" value="sign" id="sign">+/-</button>
+<button type="button" value="divmod" id="divmod" class="calcul_2">%</button>
+<button type="button" value="divide" id="divide" class="calcul_2">/</button>
+<br>
+<button type="button" value="7" id="n_7" class="btn_num">7</button>
+<button type="button" value="8" id="n_8" class="btn_num">8</button>
+<button type="button" value="9" id="n_9" class="btn_num">9</button>
+<button type="button" value="multiply" id="multiply" class="calcul_2">x</button>
+<br>
+<button type="button" value="4" id="n_4" class="btn_num">4</button>
+<button type="button" value="5" id="n_5" class="btn_num">5</button>
+<button type="button" value="6" id="n_6" class="btn_num">6</button>
+<button type="button" value="minus" id="minus" class="calcul_2">-</button>
+<br>
+<button type="button" value="1" id="n_1" class="btn_num">1</button>
+<button type="button" value="2" id="n_2" class="btn_num">2</button>
+<button type="button" value="3" id="n_3" class="btn_num">3</button>
+<button type="button" value="plus" id="plus" class="calcul_2">+</button>
+<br>
+<button type="button" value="0" id="n_0" class="btn_num">__0__</button>
+<button type="button" value="." id="dot">.</button>
+<button type="button" value="result" id="result" class="calcul_2">=</button>
+<script>
+  var original_number = ''
+  var temp_number = ''
+  var calcul_method = ''
+
+  function number_add(insert_number, orgn_number) {
+      if (calcul_method == 'result'){
+          calcul_method = ''
+          temp_number = ''
+      }
+      original_number = orgn_number.toString() + insert_number.toString()
+      if(insert_number!='.'){
+          original_number = String(Number(original_number))
+      }
+      $('#number').text(original_number)
+  }
+
+  function calculate_2(method, num1, num2) {
+      if (method) {
+          $.ajax({
+              url: '/test_calcul/',
+              type: 'POST',
+              data: {'method': method, 'number1': num1, 'number2': num2},
+              success: function (data) {
+                  $('#number').html(data)
+                  original_number = ''
+                  console.log(t_number)
+                  temp_number = t_number
+              },
+              error: function(result) {
+                  $('#number').text('error!')
+                  calcul_method = ''
+                  temp_number = ''
+              }
+          })
+      }
+      else {
+          temp_number = original_number
+          original_number = ''
+      }
+  }
+
+  $('.btn_num').on('click', function (event) {
+      var target_btn = $(event.target)
+      number_add($(target_btn).attr("value"), original_number)
+  })
+
+  $('.calcul_2').on('click', function (event) {
+      var target_btn = $(event.target)
+      if (calcul_method != 'result' && original_number) {
+          calculate_2(calcul_method, temp_number, original_number)
+      }
+      calcul_method = $(target_btn).attr("value")
+  })
+
+  $('#dot').on('click', function () {
+      if(original_number.indexOf('.')==-1) {
+          if(!original_number){
+              original_number = '0'
+          }
+          number_add('.', original_number)
+      }
+  })
+
+  $('#sign').on('click', function () {
+      original_number = String(Number(original_number*-1))
+      $('#number').text(original_number)
+  })
+
+  $('#clear').on('click', function () {
+      calcul_method = ''
+      temp_number = ''
+      original_number = ''
+      $('#number').text('0')
+  })
+
+  {#디버깅 이벤트#}
+  $('*').on('click', function (event) {
+      console.log('calcul_method : '+ calcul_method, '/ temp_number : '+ temp_number, '/ original_number : '+ original_number)
+  })
+
+</script>
+</body>
+</html>

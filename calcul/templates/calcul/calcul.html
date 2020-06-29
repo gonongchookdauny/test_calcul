@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+<form action="{% url 'calcul' %}" method="post">
+  {% csrf_token %}
+  <p>
+    <label for="number1">숫자1 :</label>
+    <input type="number" name="number1" value="0">
+  </p>
+
+  <p>
+    <label for="number2">숫자2 :</label>
+    <input type="number" name="number2" value="0">
+  </p>
+
+  <p>
+    <select name="operation">
+      <option value="plus">+</option>
+      <option value="minus">-</option>
+      <option value="multiply">x</option>
+      <option value="divide">/</option>
+      <option value="square">^</option>
+      <option value="square_root">√</option>
+      <option value="logarithm">log</option>
+      <option value="sin">sin</option>
+      <option value="cosh">cos</option>
+      <option value="tan">tan</option>
+      <option value="factorial">factorial</option>
+    </select>
+    <input type="text" name="result" value="{{ result }}" disabled>
+  </p>
+
+  <p>
+    <button type="submit" name="submit">계산하기</button>
+  </p>
+</form>
+</body>
+</html>
